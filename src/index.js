@@ -97,6 +97,7 @@ class Main extends React.Component {
 		}
 	}
 
+	//Method of the singlebox state
 	selectBox = (row, col) => {
 		let gridCopy = arrayClone(this.state.gridFull);
 		//Set the opposite state
@@ -121,6 +122,23 @@ class Main extends React.Component {
 			gridFull: grid,
 			generation: 0
 		});	
+	}
+
+	gridSize = (size) => {
+		switch (size) {
+			case "1":
+				this.cols = 20;
+				this.rows = 10;
+			break;
+			case "2":
+				this.cols = 50;
+				this.rows = 30;
+			break;
+			default:
+				this.cols = 70;
+				this.rows = 50;
+		}
+		this.clear();
 	}
 
 	start = () => {
@@ -157,6 +175,7 @@ class Main extends React.Component {
 				startButton={this.startButton}
 				stopButton={this.stopButton}
 				clear={this.clear}
+				gridSize={this.gridSize}
 			/>
 			<Grid
 				gridFull={this.state.gridFull}
