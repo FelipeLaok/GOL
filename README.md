@@ -1,2 +1,0 @@
-# GOL
-Game of Life
