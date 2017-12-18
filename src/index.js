@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { ButtonToolbar, MenuItem, DropdownButton } from 'react-bootstrap';
 
 class Box extends React.Component{
 	selectBox = () => {
@@ -49,6 +50,39 @@ class Grid extends React.Component{
 	}
 }
 
+class Buttons extends React.Component {
+
+	handleSelect = (evt) => {
+		this.props.gridSize(evt);
+	}
+
+	render() {
+		return (
+			<div className="center">
+				<ButtonToolbar>
+					<button className="btn btn-default" onClick={this.props.startButton}>
+						Start
+					</button>
+					<button className="btn btn-default" onClick={this.props.stopButton}>
+						Stop
+					</button>
+					<button className="btn btn-default" onClick={this.props.clear}>
+						Clear
+					</button>
+					<DropdownButton
+						title="Grid Size"
+						id="size-menu"
+						onSelect={this.handleSelect}
+					>
+						<MenuItem eventKey="1">20x10</MenuItem>
+						<MenuItem eventKey="2">50x30</MenuItem>
+						<MenuItem eventKey="3">70x50</MenuItem>
+					</DropdownButton>
+				</ButtonToolbar>
+			</div>
+		)
+	}
+}
 
 class Main extends React.Component {
 	constructor() {
@@ -81,6 +115,14 @@ class Main extends React.Component {
 		clearInterval(this.intervalId);
 	}
 
+	clear = () => {
+		var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false));
+		this.setState({
+			gridFull: grid,
+			generation: 0
+		});	
+	}
+
 	start = () => {
 		let g = this.state.gridFull;
 		let g2 = arrayClone(this.state.gridFull);
@@ -111,6 +153,11 @@ class Main extends React.Component {
 		return (
 			<div>
 			<h1>The Game of Life</h1>
+			<Buttons
+				startButton={this.startButton}
+				stopButton={this.stopButton}
+				clear={this.clear}
+			/>
 			<Grid
 				gridFull={this.state.gridFull}
 				rows={this.rows}
