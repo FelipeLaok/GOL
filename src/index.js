@@ -27,7 +27,6 @@ class Grid extends React.Component{
 		for (var i = 0; i < this.props.rows; i++){
 			for (var j = 0; j < this.props.cols; j++){
 				let boxId = i + "_" + j;
-//True or false 
 				boxClass = this.props.gridFull[i][j] ? "box on" : "box off";
 				rowsArr.push(
 					<Box
@@ -64,6 +63,20 @@ class Main extends React.Component {
 		}
 	}
 
+	selectBox = (row, col) => {
+		let gridCopy = arrayClone(this.state.gridFull);
+		//Set the opposite state
+		gridCopy[row][col] = !gridCopy[row][col];
+		this.setState({
+			gridFull: gridCopy
+		})
+	}
+
+		startButton = () => {
+		clearInterval(this.intervalId)
+		this.intervalId = setInterval(this.start, this.speed);
+	}
+
 	render() {
 		return (
 			<div>
@@ -78,6 +91,11 @@ class Main extends React.Component {
 			</div>
 		);
 	}
+}
+
+function arrayClone(arr) {
+	//Clone of the array
+	return JSON.parse(JSON.stringify(arr));
 }
 
 ReactDOM.render(<Main />, document.getElementById('root'));
